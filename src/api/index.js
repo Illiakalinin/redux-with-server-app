@@ -10,15 +10,17 @@ const httpClient = axios.create({
   baseURL: 'https://ullhgy.sse.codesandbox.io/'
 })
 
-const result = httpClient
-  .get('/contacts')
-  .then(data => console.log('data :>> ', data.data))
-  .catch(e => console.log('e :>> ', e))
+// const result = httpClient
+//   .get('/contacts')
+//   .then(data => console.log('data :>> ', data.data))
+//   .catch(e => console.log('e :>> ', e))
 
 // httpClient
 //   .post('/contacts', { name: 'Test007' })
 //   .then(data => console.log('data :>> ', data.data))
 //   .catch(e => console.log('e :>> ', e))
+
+export const createNewPurchase = values => httpClient.post('/contacts', values)
 
 // httpClient
 //   .patch('/contacts/c0482243-ea82-4edc-a156-1093b3b904f8', { name: 'NewTest' })
