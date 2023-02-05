@@ -20,6 +20,8 @@ const httpClient = axios.create({
 //   .then(data => console.log('data :>> ', data.data))
 //   .catch(e => console.log('e :>> ', e))
 
+export const getPurchases = () => httpClient.get('/contacts')
+
 export const createNewPurchase = values => httpClient.post('/contacts', values)
 
 // httpClient

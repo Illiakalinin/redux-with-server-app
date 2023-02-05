@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { createNewPurchase } from '../../api'
+import * as API from '../../api'
 
 const PURCHASES_SLICE_NAME = 'purchases'
 
@@ -7,11 +7,23 @@ export const createPurchase = createAsyncThunk(
   `purchases/create`,
   async (values, thunkAPI) => {
     try {
-      console.log('values :>> ', values)
-      const response = await createNewPurchase(values)
-      console.log('response :>> ', response)
+      const response = await API.createNewPurchase(values)
+
+      return response.data
     } catch (e) {
-      console.log('e :>> ', e)
+      return thunkAPI.rejectWithValue(e)
+    }
+  }
+)
+
+export const getPurchases = createAsyncThunk(
+  `${PURCHASES_SLICE_NAME}/get`,
+  async (payload, thunkAPI) => {
+    try {
+      const response = await API.getPurchases()
+      return response.data
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e)
     }
   }
 )
@@ -23,7 +35,34 @@ const purchasesSlice = createSlice({
     isFetching: false,
     error: null
   },
-  reducers: {}
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(createPurchase.pending, state => {
+      state.isFetching = true
+      state.error = null
+    })
+    builder.addCase(createPurchase.fulfilled, (state, action) => {
+      state.purchases.push(action.payload)
+      state.isFetching = false
+    }) // action.payload = response.data
+    builder.addCase(createPurchase.rejected, (state, action) => {
+      state.error = action.payload
+      state.isFetching = false
+    })
+
+    builder.addCase(getPurchases.pending, (state, action) => {
+      state.isFetching = true
+      state.error = null
+    })
+    builder.addCase(getPurchases.fulfilled, (state, action) => {
+      state.purchases.push(...action.payload)
+      state.isFetching = false
+    })
+    builder.addCase(getPurchases.rejected, (state, action) => {
+      state.error = action.payload
+      state.isFetching = false
+    })
+  }
 })
 
 const { reducer, actions } = purchasesSlice
