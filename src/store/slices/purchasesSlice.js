@@ -11,7 +11,7 @@ export const createPurchase = createAsyncThunk(
 
       return response.data
     } catch (e) {
-      return thunkAPI.rejectWithValue(e)
+      return thunkAPI.rejectWithValue({ message: e.message })
     }
   }
 )
@@ -23,7 +23,7 @@ export const getPurchases = createAsyncThunk(
       const response = await API.getPurchases()
       return response.data
     } catch (e) {
-      return thunkAPI.rejectWithValue(e)
+      return thunkAPI.rejectWithValue({ message: e.message })
     }
   }
 )
@@ -35,7 +35,7 @@ export const deletePurchase = createAsyncThunk(
       await API.deletePurchase(payload)
       return payload
     } catch (e) {
-      return thunkAPI.rejectWithValue(e)
+      return thunkAPI.rejectWithValue({ message: e.message })
     }
   }
 )
