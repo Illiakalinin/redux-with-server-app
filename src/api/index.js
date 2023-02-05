@@ -33,3 +33,5 @@ export const createNewPurchase = values => httpClient.post('/contacts', values)
 //   .delete('/contacts/1e4eac0b-d7f0-429c-9b31-fabca3bbc0a1')
 //   .then(data => console.log('data :>> ', data.data))
 //   .catch(e => console.log('e :>> ', e))
+
+export const deletePurchase = id => httpClient.delete(`/contacts/${id}`)
